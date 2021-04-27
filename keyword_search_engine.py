@@ -1,5 +1,4 @@
 
-
 import os
 import io
 from PIL import Image
@@ -8,7 +7,7 @@ from wand.image import Image as wi
 from wand.api import library
 
 import gc
-
+import re
 
 
 import ctypes
@@ -22,7 +21,7 @@ class word_search_engine():
         i=0
         inn=''
         for txtpart in self.txt:
-            for accrloc in find_all(txtpart.lower(), 'инн'):
+            for accrloc in self.find_all(txtpart.lower(), 'инн'):
                 if accrloc>0:
                     innm = re.findall('\d{10}', txtpart[accrloc:accrloc+50])
                     if len(innm)>1:
@@ -42,7 +41,7 @@ class word_search_engine():
         strg = []
         for txtpart in self.txt:
             cntc+=1
-            for accrloc in find_all(txtpart.lower(), 'депозит'):
+            for accrloc in self.find_all(txtpart.lower(), 'депозит'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+150])
                     cnt = int(len(accrm)/3)
@@ -74,42 +73,42 @@ class word_search_engine():
         strg = []
         for txtpart in self.txt:
             cntc+=1
-            for accrloc in find_all(txtpart.lower(), 'расчетные счета'):
+            for accrloc in self.find_all(txtpart.lower(), 'расчетные счета'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+150])
                     cnt = int(len(accrm)/3)
                     accr.append(''.join(accrm[0:cnt]))
                     page_rs.append(cntc)
                     strg.append(txtpart[accrloc-30:accrloc+30])
-            for accrloc in find_all(txtpart.lower(), 'текущие счета'):
+            for accrloc in self.find_all(txtpart.lower(), 'текущие счета'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+150])
                     cnt = int(len(accrm)/3)
                     accr.append(''.join(accrm[0:cnt]))
                     page_rs.append(cntc)
                     strg.append(txtpart[accrloc-30:accrloc+30])
-            for accrloc in find_all(txtpart.lower(), 'расчетных счетах'):
+            for accrloc in self.find_all(txtpart.lower(), 'расчетных счетах'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+150])
                     cnt = int(len(accrm)/3)
                     accr.append(''.join(accrm[0:cnt]))
                     page_rs.append(cntc)
                     strg.append(txtpart[accrloc-30:accrloc+30])
-            for accrloc in find_all(txtpart.lower(), 'текущих счетах'):
+            for accrloc in self.find_all(txtpart.lower(), 'текущих счетах'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+150])
                     cnt = int(len(accrm)/3)
                     accr.append(''.join(accrm[0:cnt]))
                     page_rs.append(cntc)
                     strg.append(txtpart[accrloc-30:accrloc+30])
-            for accrloc in find_all(txtpart.lower(), 'денежные эквиваленты'):
+            for accrloc in self.find_all(txtpart.lower(), 'денежные эквиваленты'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+150])
                     cnt = int(len(accrm)/3)
                     accr.append(''.join(accrm[0:cnt]))
                     page_rs.append(cntc)
                     strg.append(txtpart[accrloc-30:accrloc+30])
-            for accrloc in find_all(txtpart.lower(), 'касс'):
+            for accrloc in self.find_all(txtpart.lower(), 'касс'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+150])
                     cnt = int(len(accrm)/3)
@@ -129,7 +128,7 @@ class word_search_engine():
         strg = []
         for txtpart in self.txt:
             cntc+=1
-            for accrloc in find_all(txtpart.lower(), 'гаран'):
+            for accrloc in self.find_all(txtpart.lower(), 'гаран'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+50])
                     cnt = int(len(accrm)/3)
@@ -151,21 +150,21 @@ class word_search_engine():
         strg = []
         for txtpart in self.txt:
             cntc+=1
-            for accrloc in find_all(txtpart.lower(), 'обеспечение обязательств'):
+            for accrloc in self.find_all(txtpart.lower(), 'обеспечение обязательств'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+50])
                     cnt = int(len(accrm)/3)
                     accr.append(''.join(accrm[0:cnt]))
                     page_accr.append(cntc)
                     strg.append(txtpart[accrloc-30:accrloc+30]) 
-            for accrloc in find_all(txtpart.lower(), 'поручительства по обязательств'):
+            for accrloc in self.find_all(txtpart.lower(), 'поручительства по обязательств'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+50])
                     cnt = int(len(accrm)/3)
                     accr.append(''.join(accrm[0:cnt]))
                     page_accr.append(cntc)
                     strg.append(txtpart[accrloc-30:accrloc+30])
-            for accrloc in find_all(txtpart.lower(), '5800'):
+            for accrloc in self.find_all(txtpart.lower(), '5800'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+50])
                     cnt = int(len(accrm)/3)
@@ -186,7 +185,7 @@ class word_search_engine():
         strg = []
         for txtpart in self.txt:
             cntc+=1
-            for accrloc in find_all(txtpart.lower(), 'аккре'):
+            for accrloc in self.find_all(txtpart.lower(), 'аккре'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+50])
                     cnt = int(len(accrm)/3)
@@ -207,28 +206,28 @@ class word_search_engine():
         strg = []
         for txtpart in self.txt:
             cntc+=1
-            for accrloc in find_all(txtpart.lower(), 'авансы выданные'):
+            for accrloc in self.find_all(txtpart.lower(), 'авансы выданные'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+50])
                     cnt = int(len(accrm)/3)
                     accr.append(''.join(accrm[0:cnt]))
                     page_accr.append(cntc)
                     strg.append(txtpart[accrloc-30:accrloc+30]) 
-            for accrloc in find_all(txtpart.lower(), 'прочая задолж'):
+            for accrloc in self.find_all(txtpart.lower(), 'прочая задолж'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+50])
                     cnt = int(len(accrm)/3)
                     accr.append(''.join(accrm[0:cnt]))
                     page_accr.append(cntc)        
                     strg.append(txtpart[accrloc-30:accrloc+30]) 
-            for accrloc in find_all(txtpart.lower(), 'прочая дебиторская'):
+            for accrloc in self.find_all(txtpart.lower(), 'прочая дебиторская'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+50])
                     cnt = int(len(accrm)/3)
                     accr.append(''.join(accrm[0:cnt]))
                     page_accr.append(cntc)
                     strg.append(txtpart[accrloc-30:accrloc+30]) 
-            for accrloc in find_all(txtpart.lower(), 'прочие дебитор'):
+            for accrloc in self.find_all(txtpart.lower(), 'прочие дебитор'):
                 if accrloc>0:
                     accrm = re.findall('\d+', txtpart[accrloc:accrloc+50])
                     cnt = int(len(accrm)/3)
